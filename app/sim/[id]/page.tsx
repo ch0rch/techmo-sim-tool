@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import { useParams } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -52,6 +52,36 @@ export default function SimulacionPage() {
     agencia: "",
     ejecutivoTechmo: "",
   })
+
+  // Referencia para el contenedor de pestañas desplazable
+  const tabsContainerRef = useRef<HTMLDivElement>(null)
+
+  // Efecto para manejar el indicador de desplazamiento
+  useEffect(() => {
+    const tabsContainer = tabsContainerRef.current
+    if (!tabsContainer) return
+
+    const handleScroll = () => {
+      const isScrolledToEnd = tabsContainer.scrollLeft + tabsContainer.clientWidth >= tabsContainer.scrollWidth - 10 // 10px de margen
+
+      if (isScrolledToEnd) {
+        tabsContainer.classList.add("scrolled-end")
+      } else {
+        tabsContainer.classList.remove("scrolled-end")
+      }
+    }
+
+    // Verificar inicialmente
+    handleScroll()
+
+    // Añadir listener de evento
+    tabsContainer.addEventListener("scroll", handleScroll)
+
+    // Limpiar
+    return () => {
+      tabsContainer.removeEventListener("scroll", handleScroll)
+    }
+  }, [opcionesBanco])
 
   // Efecto para registrar la vista de página en Plausible
   useEffect(() => {
@@ -460,13 +490,15 @@ Link a la simulación: ${simulacionUrl}`
 
           {opcionesBanco.length > 0 ? (
             <Tabs defaultValue={opcionesBanco[0].id} className="mb-8" onValueChange={cambiarBancoActivo}>
-              <TabsList className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">
-                {opcionesBanco.map((banco) => (
-                  <TabsTrigger key={banco.id} value={banco.id}>
-                    {getTituloTab(banco)}
-                  </TabsTrigger>
-                ))}
-              </TabsList>
+              <div className="overflow-x-auto pb-2 -mx-4 px-4" ref={tabsContainerRef}>
+                <TabsList className="inline-flex w-auto min-w-full">
+                  {opcionesBanco.map((banco) => (
+                    <TabsTrigger key={banco.id} value={banco.id} className="whitespace-nowrap">
+                      {getTituloTab(banco)}
+                    </TabsTrigger>
+                  ))}
+                </TabsList>
+              </div>
 
               {opcionesBanco.map((banco) => (
                 <TabsContent key={banco.id} value={banco.id}>

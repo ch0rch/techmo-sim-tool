@@ -99,3 +99,33 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+/* Estilos para pestañas desplazables en móvil */
+@media (max-width: 768px) {
+  .overflow-x-auto {
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Firefox */
+  }
+
+  .overflow-x-auto::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Edge */
+  }
+
+  /* Indicador visual de desplazamiento */
+  .overflow-x-auto::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 20px;
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.8));
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .overflow-x-auto:not(.scrolled-end)::after {
+    opacity: 1;
+  }
+}
