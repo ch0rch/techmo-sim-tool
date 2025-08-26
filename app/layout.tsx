@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     description: "Herramienta para simulaciones de crédito personalizadas con las mejores condiciones del mercado",
     images: ["/opengraph-image"],
   },
-    generator: 'v0.dev'
+    generator: 'v0.app'
 }
 
 export default function RootLayout({

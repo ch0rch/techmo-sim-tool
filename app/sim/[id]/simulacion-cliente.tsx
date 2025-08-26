@@ -15,8 +15,8 @@ import { formatCurrency, generarTablaAmortizacion } from "@/lib/utils"
 // Declarar el tipo global para plausible
 declare global {
   interface Window {
-    fbq?: (event: string, eventName: string, params?: Record<string, any>) => void;\
-    plausible?: (eventName: string, options?: { props?: Record<string, any }) => void;
+    fbq?: (event: string, eventName: string, params?: Record<string, any>) => void
+    plausible?: (eventName: string, options?: { props?: Record<string, any> }) => void
   }
 }
 
@@ -271,7 +271,7 @@ Link a la simulación: ${simulacionUrl}`
         content_type: "product_group",
         value: monto,
         currency: "ARS",
-      });
+      })
     }
 
     // Plausible tracking
@@ -281,11 +281,11 @@ Link a la simulación: ${simulacionUrl}`
           banco: banco.nombre,
           tipo: banco.tipo === "fija" ? "Tasa Fija" : "UVA",
           monto: monto,
-          plazo: plazoActual
-        }
-      });
+          plazo: plazoActual,
+        },
+      })
     }
-  };
+  }
 
   // Rastrear evento cuando el usuario hace clic en "Me interesa esta opción"
   const handleInteresClick = () => {
@@ -303,7 +303,7 @@ Link a la simulación: ${simulacionUrl}`
           cuota_mensual: cuotaMensual,
           tasa: tasaInteres,
         },
-      });
+      })
     }
 
     // Plausible tracking
@@ -315,17 +315,17 @@ Link a la simulación: ${simulacionUrl}`
           monto: montoSeleccionado,
           plazo: plazoSeleccionado,
           cuota: cuotaMensual,
-          tasa: tasaInteres
-        }
-      });
+          tasa: tasaInteres,
+        },
+      })
     }
-  };
+  }
 
-  const [showContent, setShowContent] = useState(false);
+  const [showContent, setShowContent] = useState(false)
 
   useEffect(() => {
-    setShowContent(true);
-  }, []);
+    setShowContent(true)
+  }, [])
 
   if (loading) {
     return (
@@ -475,7 +475,11 @@ Link a la simulación: ${simulacionUrl}`
 
               {opcionesBanco.map((banco) => (
                 <TabsContent key={banco.id} value={banco.id}>
-                  <SimulacionBanco banco={banco} onSimulacionChange={actualizarSimulacion} onVerTablaAmortizacion={handleVerTablaAmortizacion} />
+                  <SimulacionBanco
+                    banco={banco}
+                    onSimulacionChange={actualizarSimulacion}
+                    onVerTablaAmortizacion={handleVerTablaAmortizacion}
+                  />
                 </TabsContent>
               ))}
             </Tabs>
@@ -490,7 +494,13 @@ Link a la simulación: ${simulacionUrl}`
 
         {/* Botón de solicitud */}
         <div className="flex justify-center">
-          <a href={generarEnlaceWhatsApp()} target="_blank" rel="noopener noreferrer" className="inline-block" onClick={handleInteresClick}>
+          <a
+            href={generarEnlaceWhatsApp()}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block"
+            onClick={handleInteresClick}
+          >
             <Button size="lg" className="bg-[#29DFCC] hover:bg-[#20c5b5] text-white flex items-center gap-2">
               <Send className="h-4 w-4" />
               Me interesa esta opción
