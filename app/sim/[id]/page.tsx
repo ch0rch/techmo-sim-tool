@@ -9,7 +9,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { SimulacionBanco } from "@/components/simulacion-banco"
 import type { Simulacion, BancoOption } from "@/lib/utils"
 import { createClientSupabaseClient } from "@/lib/supabase"
-import { Clock, AlertTriangle, Send } from "lucide-react"
+import { Send } from "lucide-react"
 import Image from "next/image"
 import { formatCurrency, generarTablaAmortizacion } from "@/lib/utils"
 
@@ -35,7 +35,6 @@ export default function SimulacionPage() {
   const [opcionesBanco, setOpcionesBanco] = useState<OpcionBanco[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const [tiempoRestante, setTiempoRestante] = useState<string | null>(null)
   const [baseUrl, setBaseUrl] = useState("")
 
   // Estados para la simulación actual
@@ -154,9 +153,6 @@ export default function SimulacionPage() {
           agencia: agencia,
           ejecutivo_techmo: ejecutivoTechmo,
         } as Simulacion)
-
-        // Establecer tiempo restante fijo
-        setTiempoRestante("7 días")
 
         // Procesar opciones de banco
         if (data.bancos && Array.isArray(data.bancos)) {
@@ -300,13 +296,6 @@ Link a la simulación: ${simulacionUrl}`
     })
   }
 
-  // Determinar si la simulación está por expirar
-  const isPorExpirar = () => {
-    if (!tiempoRestante || tiempoRestante === "Expirado") return false
-    const dias = Number.parseInt(tiempoRestante.split(" ")[0])
-    return dias <= 3
-  }
-
   // Función para generar el título de la pestaña
   const getTituloTab = (banco: OpcionBanco) => {
     return `${banco.nombre} - ${banco.tipo === "fija" ? "Tasa Fija" : "UVA"}`
@@ -413,24 +402,6 @@ Link a la simulación: ${simulacionUrl}`
                   </p>
                 )}
                 <p className="mt-2 text-sm">Creado el {formatFecha(simulacion.created_at)}</p>
-
-                {tiempoRestante && (
-                  <div className="mt-3 flex items-center gap-2">
-                    {isPorExpirar() ? (
-                      <AlertTriangle className="h-4 w-4 text-amber-500" />
-                    ) : (
-                      <Clock className="h-4 w-4 text-[#29DFCC]" />
-                    )}
-                    <p className={isPorExpirar() ? "text-amber-500 font-medium" : ""}>
-                      Tiempo restante: {tiempoRestante}
-                    </p>
-                  </div>
-                )}
-                {isPorExpirar() && (
-                  <p className="text-sm text-amber-500 mt-1">
-                    Esta simulación expirará pronto. Tome una decisión para asegurar estas condiciones.
-                  </p>
-                )}
               </div>
 
               {/* Columna 2: Proceso de crédito */}

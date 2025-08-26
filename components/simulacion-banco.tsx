@@ -7,7 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Label } from "@/components/ui/label"
 import { Slider } from "@/components/ui/slider"
 import { type BancoOption, calcularCuotaMensual, generarTablaAmortizacion, formatCurrency } from "@/lib/utils"
-import { InfoIcon as InfoCircle, Calendar, DollarSign, Percent } from "lucide-react"
+import { MinusCircle as InfoCircle, Calendar, DollarSign } from "lucide-react"
 import { BotonTablaAmortizacion } from "@/components/tabla-amortizacion"
 import type { Cuota } from "@/lib/utils"
 import { Input } from "@/components/ui/input"
@@ -235,15 +235,6 @@ export function SimulacionBanco({ banco, onSimulacionChange, onVerTablaAmortizac
                   <span className="font-bold">{plazoMinimo}</span> a <span className="font-bold">{plazoMaximo}</span>{" "}
                   cuotas
                 </p>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-3">
-              <Percent className="h-5 w-5 text-[#29DFCC] mt-0.5" />
-              <div>
-                <p className="font-medium">Tasa de Interés</p>
-                <p className="text-lg font-bold">{banco.tasa}% anual</p>
-                <p className="text-sm text-muted-foreground">Tipo: {banco.tipo === "fija" ? "Fija" : "UVA"}</p>
               </div>
             </div>
           </CardContent>
